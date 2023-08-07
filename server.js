@@ -63,13 +63,14 @@ const translateMessage = async (message, targetLanguage) => {
   const prompt = `Translate the following text to ${targetLanguage}: ${message}`;
 
   const response = await axios.post('https://api.openai.com/v1/completions', {
-    prompt: prompt,
-    engine: "text-davinci-002",
-    temperature: 0.7,
-    max_tokens: 200
+    "prompt": prompt,
+    "model": "text-davinci-002",
+    "temperature": 0.7,
+    "max_tokens": 200
   }, {
     headers: {
-      'Authorization': `Bearer your-api-key-here`
+      'Authorization': 'Bearer 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',
+      'Content-Type': 'application/json'
     }
   });
 
