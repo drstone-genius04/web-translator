@@ -14,37 +14,18 @@ const App = () => {
     setLoading(true);
     setError(null);
     try {
-      const translatedMessage = await translateMessage(message, language);
-
-      const response = await axios.post(`http://localhost:3000/send/${user.toLowerCase()}`, {
+      const response = await axios.post(`/send/${user.toLowerCase()}`, {
         message: message,
       });
-
+      
       if (response.status === 200) {
-        setChatHistory(prevState => [...prevState, { user, message: translatedMessage }]);
+        setChatHistory(prevState => [...prevState, { user, message: response.data.translated_message }]);
         user === 'User 1' ? setUser1Message('') : setUser2Message('');
       }
     } catch (err) {
       setError('Translation failed. Please try again.');
     }
     setLoading(false);
-  };
-
-  const translateMessage = async (message, targetLanguage) => {
-    const prompt = `Translate the following text to ${targetLanguage}: ${message}`;
-    const response = await axios.post('https://api.openai.com/v1/completions', {
-      engine: 'text-davinci-002',
-      prompt: prompt,
-      temperature: 0.7,
-      max_tokens: 200
-    }, {
-      headers: {
-        'Authorization': 'Bearer your-api-key-here'
-      }
-    });
-
-    const translatedMessage = response.data.choices[0].text.trim();
-    return translatedMessage;
   };
 
   return (
@@ -59,7 +40,7 @@ const App = () => {
         onChange={(e) => setUser1Message(e.target.value)}
         disabled={loading}
       />
-      <Button variant="contained" color="primary" onClick={() => sendMessage('User 1', user1Message, 'es')} disabled={loading}>
+      <Button variant="contained" color="primary" onClick={() => sendMessage('user1', user1Message, 'es')} disabled={loading}>
         User 1 Send
       </Button>
 
@@ -71,7 +52,7 @@ const App = () => {
         onChange={(e) => setUser2Message(e.target.value)}
         disabled={loading}
       />
-      <Button variant="contained" color="secondary" onClick={() => sendMessage('User 2', user2Message, 'en')} disabled={loading}>
+      <Button variant="contained" color="secondary" onClick={() => sendMessage('user2', user2Message, 'en')} disabled={loading}>
         User 2 Send
       </Button>
 

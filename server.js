@@ -69,7 +69,7 @@ const translateMessage = async (message, targetLanguage) => {
     "max_tokens": 200
   }, {
     headers: {
-      'Authorization': 'Bearer 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',
+      'Authorization': 'Bearer your-api-key-here',
       'Content-Type': 'application/json'
     }
   });
@@ -78,4 +78,5 @@ const translateMessage = async (message, targetLanguage) => {
   return translatedMessage;
 };
 
-app.listen(3000, () => console.log('Server is running on port 3000.'));
+app.listen(3001, () => console.log('Server is running on port 3001.'));
+
